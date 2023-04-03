@@ -110,3 +110,5 @@ src/logo.svg
 .svn/pristine/b9/b99fbd223bc4341e2819c9cada72b293196b9ee2.svn-base
 .svn/pristine/c7/c766c8e59aee1f4778e0ab9218de2f21812e104a.svn-base
 .svn/pristine/db/dbeebc34db2a5917cc58474074f43807cd297bdf.svn-base
+.vscode/launch.json
+.vscode/settings.json
