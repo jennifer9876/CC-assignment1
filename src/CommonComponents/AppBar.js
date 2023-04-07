@@ -7,40 +7,23 @@ import {
   Box,
   Button,
 } from "@mui/material";
-import ForumIcon from "@mui/icons-material/Forum";
 
 function AppBarComponent(props) {
-  let { onHomeClick, onProfileClick, onLogoutClick, userName } = props;
+  let { onSubscriptionClick, onQueryClick, onLogoutClick, userName } = props;
   return (
     <AppBar position='static'>
       <Container maxWidth='xl'>
         <Toolbar>
-          <ForumIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
-          <Typography
-            variant='h6'
-            noWrap
-            component='a'
-            sx={{
-              mr: 2,
-              display: { xs: "none", md: "flex" },
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
-              textDecoration: "none",
-            }}>
-            LAN
-          </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             <Button
-              onClick={onHomeClick}
+              onClick={onSubscriptionClick}
               sx={{ my: 2, color: "white", display: "block" }}>
-              Home
+              Subscription
             </Button>
             <Button
-              onClick={onProfileClick}
+              onClick={onQueryClick}
               sx={{ my: 2, color: "white", display: "block" }}>
-              Profile
+              Query
             </Button>
           </Box>
           <Typography
@@ -56,7 +39,7 @@ function AppBarComponent(props) {
               textDecoration: "none",
               paddingRight: 5,
             }}>
-            Hey,{userName}!
+            Hey, {userName}!
           </Typography>
           <Box sx={{ flexGrow: 0 }}>
             <Button

@@ -51,7 +51,7 @@ function LoginPage({ onLogin }) {
             setLocalUser(loggedInUser);
             handleOpenAlert();
             setTimeout(() => {
-              navigate("/homepage");
+              navigate("/subscriptionpage");
             }, 3000);
           }
         }

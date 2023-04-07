@@ -1,19 +1,13 @@
 import * as React from "react";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import {
-  Box,
-  IconButton,
-  Menu,
-  MenuItem,
-  Paper,
-  Divider,
-} from "@mui/material";
+import { Box, IconButton, Menu, MenuItem, Paper, Divider } from "@mui/material";
 //dialog imports
 import { AppBarComponent } from "../../CommonComponents/AppBar";
 import { useNavigate } from "react-router-dom";
 import { EditDialog } from "../Component/EditDialog";
 import { ConfirmEdit, ConfirmDelete } from "../Component/ConfirmDialog";
 import Alerts from "../../CommonComponents/Alert";
+import { getLocalUser } from "../../AWS/route";
 
 const ProfilePage = ({ loggedInUser, onLogout, onDelete }) => {
   const [fName, setFirstName] = React.useState("");
@@ -22,11 +16,13 @@ const ProfilePage = ({ loggedInUser, onLogout, onDelete }) => {
   let user = JSON.parse(localStorage.getItem(loggedInUser));
 
   function handleHomePage() {
-    navigate("/homepage");
+    navigate("/subscriptionpage");
   }
   function handleProfilePage() {
     navigate("/profilepage");
   }
+
+  let loginInfo = getLocalUser();
 
   const handleLogout = () => {
     onLogout();
@@ -80,7 +76,9 @@ const ProfilePage = ({ loggedInUser, onLogout, onDelete }) => {
       onDelete(postId);
     }
     localStorage.removeItem(loggedInUser);
-    setTimeout(() => { navigate("/", { replace: true }) }, 2000)
+    setTimeout(() => {
+      navigate("/", { replace: true });
+    }, 2000);
 
     handleClose();
   };
@@ -100,7 +98,7 @@ const ProfilePage = ({ loggedInUser, onLogout, onDelete }) => {
   };
   const handleCloseConfirmDelete = () => {
     setOpenConfirmDelete(false);
-  }
+  };
   //open and closing of successful alert for edit
   const [openAlertEdit, setOpenAlertEdit] = React.useState(false);
   const handleOpenAlertEdit = () => {
@@ -118,14 +116,13 @@ const ProfilePage = ({ loggedInUser, onLogout, onDelete }) => {
     setOpenAlertDelete(false);
   };
 
-
   return (
     <>
       <AppBarComponent
-        onHomeClick={handleHomePage}
-        onProfileClick={handleProfilePage}
+        onSubscriptionClick={handleHomePage}
+        onQueryClick={handleProfilePage}
         onLogoutClick={handleLogout}
-        userName={user !== null ? user.firstName : ""}
+        userName={loginInfo.user_name}
       />
       <div style={{ paddingTop: "5%" }}>
         <Box
@@ -142,8 +139,7 @@ const ProfilePage = ({ loggedInUser, onLogout, onDelete }) => {
             <div style={{ display: "flex" }}>
               <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
                 <h1 style={{ paddingLeft: 10 }} sx={{ flexGrow: 1 }}>
-                  {" "}
-                  Profile{" "}
+                  Profile
                 </h1>
               </Box>
               <Box sx={{ flexGrow: 0 }} style={{ paddingTop: 25 }}>
@@ -177,11 +173,14 @@ const ProfilePage = ({ loggedInUser, onLogout, onDelete }) => {
             </div>
             <Divider />
             <h2 style={{ paddingLeft: 10 }}>
-              Name: {user !== null ? user.firstName : ""} {user !== null ? user.lastName : ""}
+              Name: {user !== null ? user.firstName : ""}{" "}
+              {user !== null ? user.lastName : ""}
             </h2>
             <h2 style={{ paddingLeft: 10 }}>E-mail: {loggedInUser}</h2>
             <Divider />
-            <h3 style={{ paddingLeft: 10 }}>Joined: {user !== null ? user.signupDate : ""}</h3>
+            <h3 style={{ paddingLeft: 10 }}>
+              Joined: {user !== null ? user.signupDate : ""}
+            </h3>
           </Paper>
         </Box>
       </div>
