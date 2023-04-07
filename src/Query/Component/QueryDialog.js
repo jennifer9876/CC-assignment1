@@ -19,7 +19,7 @@ function QueryDialog(props) {
       <Dialog open={open} onClose={onClose} maxWidth='lg'>
         <DialogTitle> Search Result </DialogTitle>
         <DialogContent>
-          {queryData == {} ? (
+          {Object.keys(queryData).length == 0 ? (
             <Card
               variant='outlined'
               style={{ border: "1px solid gray", marginBottom: 20 }}>
@@ -45,7 +45,7 @@ function QueryDialog(props) {
           )}
         </DialogContent>
         <DialogActions>
-          {queryData == {} ? (
+          {Object.keys(queryData).length == 0 ? (
             <></>
           ) : (
             <Button onClick={onSubscribe}> Subscribe </Button>

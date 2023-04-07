@@ -1,8 +1,34 @@
 import * as React from "react";
 import { Box, TextField } from "@mui/material";
 
+function UsernameField(props) {
+  let { setUserName, userNameErrorMessage } = props;
+  return (
+    <Box
+      style={{
+        width: "90%",
+        margin: "auto",
+
+        paddingTop: 10,
+        paddingBottom: 10,
+      }}>
+      <TextField
+        label='Username'
+        variant='outlined'
+        fullWidth={true}
+        onChange={function (event) {
+          setUserName(event.target.value);
+        }}
+        required={true}
+        error={userNameErrorMessage.length !== 0}
+        helperText={userNameErrorMessage}
+      />
+    </Box>
+  );
+}
+
 function EmailField(props) {
-  let { email, setEmail } = props;
+  let { email, setEmail, emailErrorMessage } = props;
   return (
     <Box
       style={{
@@ -17,19 +43,19 @@ function EmailField(props) {
         variant='outlined'
         fullWidth={true}
         defaultValue={email}
-        onBlur={function (event) {
+        onChange={function (event) {
           setEmail(event.target.value);
         }}
         required={true}
-        error={props.emailErrorMessage.length !== 0}
-        helperText={props.emailErrorMessage}
+        error={emailErrorMessage.length !== 0}
+        helperText={emailErrorMessage}
       />
     </Box>
   );
 }
 
 function PasswordField(props) {
-  let { Password, setPassword } = props;
+  let { Password, setPassword, passwordErrorMessage } = props;
   return (
     <Box
       style={{
@@ -43,39 +69,14 @@ function PasswordField(props) {
         type='password'
         fullWidth={true}
         defaultValue={Password}
-        onBlur={function (event) {
+        onChange={function (event) {
           setPassword(event.target.value);
         }}
         required={true}
-        error={props.passwordErrorMessage.length !== 0}
-        helperText={props.passwordErrorMessage}
+        error={passwordErrorMessage.length !== 0}
+        helperText={passwordErrorMessage}
       />
     </Box>
   );
 }
-
-function NameFields(props) {
-  let { setFirstName } = props;
-  return (
-    <Box
-      style={{
-        width: "90%",
-        margin: "auto",
-
-        paddingTop: 10,
-        paddingBottom: 10,
-      }}>
-      <TextField
-        label='Enter Username Name'
-        variant='outlined'
-        onBlur={function (event) {
-          setFirstName(event.target.value);
-        }}
-        required={true}
-        error={props.firstNameErrorMessage.length !== 0}
-        helperText={props.firstNameErrorMessage}
-      />
-    </Box>
-  );
-}
-export { EmailField, PasswordField, NameFields };
+export { EmailField, PasswordField, UsernameField };

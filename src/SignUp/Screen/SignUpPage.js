@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import {
   EmailField,
   PasswordField,
-  NameFields,
+  UsernameField,
 } from "../Component/SignUpInputFields";
 import { SignUpButton } from "../Component/SignUpButtons";
 import Alert from "../../CommonComponents/Alert";
@@ -16,7 +16,7 @@ function SignUpPage() {
   const [userName, setUserName] = React.useState("");
   const [emailErrorMessage, setEmailErrorMessage] = React.useState("");
   const [passwordErrorMessage, setPasswordErrorMessage] = React.useState("");
-  const [firstNameErrorMessage, setFirstNameErrorMessage] = React.useState("");
+  const [userNameErrorMessage, setUserNameErrorMessage] = React.useState("");
   const formRef = React.useRef();
   const navigate = new useNavigate();
   const [openAlert, setOpenAlert] = React.useState(false);
@@ -82,9 +82,9 @@ function SignUpPage() {
           <Paper elevation={3}>
             <h1 style={{ paddingLeft: 10 }}> Sign Up </h1> <Divider />
             <form ref={formRef}>
-              <NameFields
-                setFirstName={handleUserName}
-                firstNameErrorMessage={firstNameErrorMessage}
+              <UsernameField
+                setUserName={handleUserName}
+                userNameErrorMessage={userNameErrorMessage}
               />
               <EmailField
                 setEmail={handleEmail}
