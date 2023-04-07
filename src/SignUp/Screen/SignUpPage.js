@@ -13,7 +13,7 @@ import { getAllUsers, putUser } from "../../AWS/userService";
 function SignUpPage() {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
-  const [firstName, setFirstName] = React.useState("");
+  const [userName, setUserName] = React.useState("");
   const [emailErrorMessage, setEmailErrorMessage] = React.useState("");
   const [passwordErrorMessage, setPasswordErrorMessage] = React.useState("");
   const [firstNameErrorMessage, setFirstNameErrorMessage] = React.useState("");
@@ -22,7 +22,7 @@ function SignUpPage() {
   const [openAlert, setOpenAlert] = React.useState(false);
 
   async function handleSignUp() {
-    if (email !== "" && password !== "" && firstName !== "") {
+    if (email !== "" && password !== "" && userName !== "") {
       const rslt = await getAllUsers();
 
       const allUsers = rslt.data.Items;
@@ -36,7 +36,7 @@ function SignUpPage() {
       });
 
       if (!userExist) {
-        await putUser(email, firstName, password);
+        await putUser(email, userName, password);
         setOpenAlert(true);
         setTimeout(() => {
           navigate("/");
@@ -50,15 +50,14 @@ function SignUpPage() {
     navigate("/");
   };
 
-  //all four validations are here, check for correct email forman and strong password. Name fields only take in characters, no special characters
   const handleEmail = (email) => {
     setEmail(email);
   };
   const handlePassword = (password) => {
     setPassword(password);
   };
-  const handleFirstName = (firstName) => {
-    setFirstName(firstName);
+  const handleUserName = (userName) => {
+    setUserName(userName);
   };
 
   return (
@@ -84,7 +83,7 @@ function SignUpPage() {
             <h1 style={{ paddingLeft: 10 }}> Sign Up </h1> <Divider />
             <form ref={formRef}>
               <NameFields
-                setFirstName={handleFirstName}
+                setFirstName={handleUserName}
                 firstNameErrorMessage={firstNameErrorMessage}
               />
               <EmailField

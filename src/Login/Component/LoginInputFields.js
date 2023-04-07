@@ -1,6 +1,5 @@
 import * as React from "react";
 import { Box, TextField } from "@mui/material";
-import { useSlotProps } from "@mui/base";
 
 function EmailField(props) {
   let { email, setEmail } = props;
