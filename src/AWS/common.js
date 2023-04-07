@@ -64,6 +64,22 @@ async function scan(params) {
     return rslt;
 }
 
+async function deleteItem(params) {
+    let { promise, resolve } = promisify();
+    dynamoDB.delete(params, (err, data) => {
+        let rslt = {};
+        if (err) {
+            rslt = { rc: 1, msg: err.message };
+        } else {
+            rslt = { rc: 0, data: data };
+        }
+        resolve(rslt);
+    });
+
+    let rslt = await promise;
+    return rslt;
+}
+
 async function listObjects(params) {
     let { promise, resolve } = promisify();
 
@@ -89,4 +105,4 @@ function promisify() {
     return { promise, resolve };
 }
 
-export { dynamoDB, s3Bucket, putItem, scan, query, listObjects };
+export { dynamoDB, s3Bucket, putItem, scan, query, listObjects, deleteItem };

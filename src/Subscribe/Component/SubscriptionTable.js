@@ -6,22 +6,25 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { mapSubscriptionData } from "../../AWS/subscribeService";
-
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
-
-// const rows = [
-//   createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-//   createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-//   createData("Eclair", 262, 16.0, 24, 6.0),
-//   createData("Cupcake", 305, 3.7, 67, 4.3),
-//   createData("Gingerbread", 356, 16.0, 49, 3.9),
-// ];
+import {
+  mapSubscriptionData,
+  deleteSubscriber,
+  createSubscriber,
+} from "../../AWS/subscribeService";
+import { Button } from "@mui/material";
 
 function SubscriptionTable() {
   const [subData, setSubData] = React.useState(null);
+
+  async function handleButtonToggle(subscriptionData) {
+    if (subscriptionData.subscribedStatus == "Remove") {
+      await deleteSubscriber(subscriptionData.title);
+    } else {
+      await createSubscriber(subscriptionData.title);
+    }
+    let list = await mapSubscriptionData();
+    setSubData(list);
+  }
 
   if (subData == null) {
     mapSubscriptionData().then(function (rslt) {
@@ -41,6 +44,7 @@ function SubscriptionTable() {
               <TableCell>Artist</TableCell>
               <TableCell>Year</TableCell>
               <TableCell>Image</TableCell>
+              <TableCell>Subscribe/Remove</TableCell>
               <TableCell />
             </TableRow>
           </TableHead>
@@ -54,6 +58,15 @@ function SubscriptionTable() {
                 <TableCell>{row.year}</TableCell>
                 <TableCell>
                   <img src={row.image} width='150' height='150'></img>
+                </TableCell>
+                <TableCell>
+                  <Button
+                    variant='contained'
+                    onClick={function () {
+                      handleButtonToggle(row);
+                    }}>
+                    {`${row.subscribedStatus}`}
+                  </Button>
                 </TableCell>
               </TableRow>
             ))}

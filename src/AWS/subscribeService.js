@@ -1,4 +1,5 @@
-import { dynamoDB, scan, query, putItem, listObjects } from "./common";
+import { dynamoDB, scan, query, putItem, listObjects, deleteItem } from "./common";
+import { getLocalUser } from "../AWS/userService";
 
 async function getAllMusic() {
     //Get user data
@@ -8,6 +9,56 @@ async function getAllMusic() {
 
     let rslt = await scan(params)
     return rslt.data.Items;
+}
+
+async function getSubcribedMusic() {
+    let loginInfo = getLocalUser();
+
+    //Get user data
+    const params = {
+        TableName: 'subscribe',
+
+        KeyConditionExpression: '#pk = :pk',
+        ExpressionAttributeNames: {
+            '#pk': 'email'
+        },
+        ExpressionAttributeValues: {
+            ':pk': `${loginInfo.email}`
+        }
+    };
+
+    let rslt = await query(params)
+    return rslt.data.Items;
+}
+
+async function deleteSubscriber(title) {
+    let loginInfo = getLocalUser();
+
+    const params = {
+        TableName: 'subscribe',
+        Key: {
+            'email': loginInfo.email,
+            'title': title
+        }
+    };
+
+    let rslt = await deleteItem(params)
+    return rslt;
+}
+
+async function createSubscriber(title) {
+    let loginInfo = getLocalUser();
+
+    const params = {
+        TableName: 'subscribe',
+        Item: {
+            'email': `${loginInfo.email}`,
+            'title': `${title}`
+        }
+    };
+
+    let rslt = await putItem(params)
+    return rslt;
 }
 
 function getAllImages() {
@@ -27,6 +78,7 @@ async function mapSubscriptionData() {
     let subscriptionData = []
 
     let allMusic = await getAllMusic()
+    let subscribedMusic = await getSubcribedMusic()
     let allImages = getAllImages()
 
     for (let i in allMusic) {
@@ -41,6 +93,15 @@ async function mapSubscriptionData() {
         subObj["artist"] = musicData.artist;
         subObj["year"] = musicData.year;
         subObj["image"] = allImages[imgFileName];
+        subObj["subscribedStatus"] = "Subscribe";
+
+        for (let j in subscribedMusic) {
+            const subscribedData = subscribedMusic[j]
+
+            if (subscribedData.title == musicData.title)
+                subObj["subscribedStatus"] = "Remove";
+
+        }
 
         subscriptionData.push(subObj)
     }
@@ -48,4 +109,4 @@ async function mapSubscriptionData() {
     return subscriptionData;
 }
 
-export { getAllMusic, getAllImages, mapSubscriptionData }
+export { getAllMusic, getAllImages, mapSubscriptionData, deleteSubscriber, createSubscriber }
