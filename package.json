@@ -9,6 +9,7 @@
         "@mui/icons-material": "^5.8.4",
         "@mui/material": "^5.9.2",
         "aws-sdk": "^2.1342.0",
+        "fs": "^0.0.1-security",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
         "react-router-dom": "^6.3.0",

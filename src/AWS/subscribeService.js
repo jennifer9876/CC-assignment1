@@ -7,19 +7,45 @@ async function getAllMusic() {
     };
 
     let rslt = await scan(params)
-    return rslt;
+    return rslt.data.Items;
 }
 
-async function getAllImages() {
-    //Get user data
-    const params = {
-        Bucket: 's3827022-test-artist-images',
-    };
+function getAllImages() {
 
-    let rslt = await listObjects(params)
-    return rslt;
+    function importAll(r) {
+        let images = {};
+        r.keys().forEach((item, index) => { images[item.replace('./', '')] = r(item); });
+        return images
+    }
+    const images = importAll(require.context('../images', false, /\.(png|jpe?g|svg)$/));
+
+    return images
 }
 
+async function mapSubscriptionData() {
 
+    let subscriptionData = []
 
-export { getAllMusic, getAllImages }
+    let allMusic = await getAllMusic()
+    let allImages = getAllImages()
+
+    for (let i in allMusic) {
+        let subObj = {}
+        const musicData = allMusic[i]
+
+        const imageUrl = musicData.img_url;
+        const imageArr = imageUrl.split("/");
+        const imgFileName = imageArr[imageArr.length - 1];
+
+        subObj["title"] = musicData.title;
+        subObj["artist"] = musicData.artist;
+        subObj["year"] = musicData.year;
+        subObj["image"] = allImages[imgFileName];
+
+        subscriptionData.push(subObj)
+    }
+
+    return subscriptionData;
+}
+
+export { getAllMusic, getAllImages, mapSubscriptionData }
