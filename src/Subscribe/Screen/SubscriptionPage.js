@@ -28,8 +28,10 @@ const SubscriptionPage = ({ onLogout }) => {
         onQueryClick={handleQueryPage}
         onLogoutClick={handleLogout}
         userName={loginInfo.user_name}
-      />{" "}
-      <div style={{ paddingLeft: 100, paddingRight: 100 }}> </div>{" "}
+      />
+      <div style={{ paddingLeft: 100, paddingRight: 100 }}>
+        This is Subscribe Page
+      </div>
     </>
   );
 };

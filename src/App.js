@@ -22,27 +22,6 @@ function App() {
     removeLocalUser();
   };
 
-  function onDelete(postId) {
-    window.localStorage.removeItem("post_" + postId);
-    let postIds = window.localStorage.getItem("postIds");
-    postIds = JSON.parse(postIds);
-
-    let loginInfo = window.localStorage.getItem(loggedInUser);
-    loginInfo = JSON.parse(loginInfo);
-
-    let idx = postIds.indexOf(postId);
-    let newPostIds = [...postIds];
-    newPostIds.splice(idx, 1);
-    window.localStorage.setItem("postIds", JSON.stringify(newPostIds));
-
-    let userPostIds = loginInfo.userPostIds;
-    let userPostIdx = userPostIds.indexOf("post_" + postId);
-    let newUserPostIds = [...userPostIds];
-    newUserPostIds.splice(userPostIdx, 1);
-    loginInfo.userPostIds = newUserPostIds;
-    window.localStorage.setItem(loggedInUser, JSON.stringify(loginInfo));
-  }
-
   return (
     <BrowserRouter>
       <Routes>
@@ -55,11 +34,7 @@ function App() {
         <Route
           path='/profilepage'
           element={
-            <ProfilePage
-              loggedInUser={loggedInUser}
-              onLogout={onLogout}
-              onDelete={onDelete}
-            />
+            <ProfilePage loggedInUser={loggedInUser} onLogout={onLogout} />
           }
         />
       </Routes>
