@@ -61,6 +61,48 @@ async function createSubscriber(title) {
     return rslt;
 }
 
+async function getQueriedData(titleText, artistText, yearText) {
+
+    const queryValues = {
+        title: `${titleText}`,
+        artist: `${artistText}`,
+        year: `${yearText}`
+    };
+
+    const filterExpressions = [];
+    const expressionAttributeValues = {};
+
+    Object.entries(queryValues).forEach(([attribute, value]) => {
+        if (value) {
+            if (attribute == 'year' && yearText) {
+                let attributeTitle = "#yearVal"
+                filterExpressions.push(`${attributeTitle} = :${attribute}`);
+
+            } else {
+                filterExpressions.push(`${attribute} = :${attribute}`);
+            }
+
+            expressionAttributeValues[`:${attribute}`] = value;
+        }
+    });
+
+
+    let params = {
+        TableName: 'music',
+        FilterExpression: filterExpressions.join(' and '),
+        ExpressionAttributeValues: expressionAttributeValues,
+    };
+
+    if (yearText) {
+        params["ExpressionAttributeNames"] = {
+            "#yearVal": "year"
+        }
+    }
+
+    let rslt = await scan(params)
+    return rslt.data.Items;
+}
+
 function getAllImages() {
 
     function importAll(r) {
@@ -109,4 +151,4 @@ async function mapSubscriptionData() {
     return subscriptionData;
 }
 
-export { getAllMusic, getAllImages, mapSubscriptionData, deleteSubscriber, createSubscriber }
+export { getAllMusic, getAllImages, mapSubscriptionData, deleteSubscriber, createSubscriber, getQueriedData }
