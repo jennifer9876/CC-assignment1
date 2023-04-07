@@ -66,7 +66,7 @@ function NameFields(props) {
         paddingBottom: 10,
       }}>
       <TextField
-        label='Enter First Name'
+        label='Enter Username Name'
         variant='outlined'
         onBlur={function (event) {
           setFirstName(event.target.value);
