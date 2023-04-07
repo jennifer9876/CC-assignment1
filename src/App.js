@@ -3,7 +3,7 @@ import { useState } from "react";
 import LoginPage from "./Login/Screen/LoginPage";
 import SignUpPage from "./SignUp/Screen/SignUpPage";
 import { SubscriptionPage } from "./Subscribe/Screen/SubscriptionPage";
-import ProfilePage from "./Profile/Screen/ProfilePage";
+import QueryPage from "./Profile/Screen/QueryPage";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { removeLocalUser } from "./AWS/route";
 
@@ -34,7 +34,7 @@ function App() {
         <Route
           path='/profilepage'
           element={
-            <ProfilePage loggedInUser={loggedInUser} onLogout={onLogout} />
+            <QueryPage loggedInUser={loggedInUser} onLogout={onLogout} />
           }
         />
       </Routes>

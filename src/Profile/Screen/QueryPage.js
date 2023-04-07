@@ -1,10 +1,9 @@
 import * as React from "react";
-//dialog imports
 import { AppBarComponent } from "../../CommonComponents/AppBar";
 import { useNavigate } from "react-router-dom";
 import { getLocalUser } from "../../AWS/route";
 
-const ProfilePage = ({ onLogout }) => {
+const QueryPage = ({ onLogout }) => {
   const navigate = useNavigate();
 
   function handleSubscriptionPage() {
@@ -37,4 +36,4 @@ const ProfilePage = ({ onLogout }) => {
     </>
   );
 };
-export default ProfilePage;
+export default QueryPage;
