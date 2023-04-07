@@ -13,10 +13,7 @@ export default function Alerts(props) {
   return (
     <Stack>
       <Snackbar open={open} autoHideDuration={1000} onClose={onClose}>
-        <Alert
-          onClose={onClose}
-          severity={props.severity}
-          sx={{ width: "100%" }}>
+        <Alert onClose={onClose} sx={{ width: "100%" }}>
           {customText}
         </Alert>
       </Snackbar>

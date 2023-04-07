@@ -2,7 +2,7 @@ import * as React from "react";
 import { Box, TextField } from "@mui/material";
 
 function EmailField(props) {
-  let { email, setEmail } = props;
+  let { email, setEmail, emailErrorMessage } = props;
 
   return (
     <Box
@@ -21,15 +21,15 @@ function EmailField(props) {
         onChange={function (event) {
           setEmail(event.target.value);
         }}
-        error={props.emailErrorMessage.length !== 0}
-        helperText={props.emailErrorMessage}
+        error={emailErrorMessage.length !== 0}
+        helperText={emailErrorMessage}
       />
     </Box>
   );
 }
 
 function PasswordField(props) {
-  let { Password, setPassword } = props;
+  let { Password, setPassword, passwordErrorMessage } = props;
   return (
     <Box
       style={{
@@ -46,8 +46,8 @@ function PasswordField(props) {
         onChange={function (event) {
           setPassword(event.target.value);
         }}
-        error={props.passwordErrorMessage.length !== 0}
-        helperText={props.passwordErrorMessage}
+        error={passwordErrorMessage.length !== 0}
+        helperText={passwordErrorMessage}
       />
     </Box>
   );

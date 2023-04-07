@@ -25,7 +25,6 @@ function LoginPage() {
   async function handleLogin() {
     setEmailErrorMessage("");
     setPasswordErrorMessage("");
-    console.log("handlelogin");
 
     if (email == null) {
       setEmailErrorMessage("E-mail is not entered");
