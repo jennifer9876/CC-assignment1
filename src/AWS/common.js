@@ -16,4 +16,60 @@ AWS.config.update({
 const dynamoDB = new AWS.DynamoDB.DocumentClient();
 const s3Bucket = new AWS.S3();
 
-export { dynamoDB, s3Bucket };
+async function putItem(dynamoDB, params) {
+    let { promise, resolve } = promisify();
+    dynamoDB.put(params, (err, data) => {
+        let rslt = {};
+        if (err) {
+            rslt = { rc: 1, msg: err.message };
+        } else {
+            rslt = { rc: 0, data: data };
+        }
+        resolve(rslt);
+    });
+
+    let rslt = await promise;
+    return rslt;
+}
+
+async function query(dynamoDB, params) {
+    let { promise, resolve } = promisify();
+    dynamoDB.query(params, (err, data) => {
+        let rslt = {};
+        if (err) {
+            rslt = { rc: 1, msg: err.message };
+        } else {
+            rslt = { rc: 0, data: data };
+        }
+        resolve(rslt);
+    });
+
+    let rslt = await promise;
+    return rslt;
+}
+
+async function scan(dynamoDB, params) {
+    let { promise, resolve } = promisify();
+    dynamoDB.scan(params, (err, data) => {
+        let rslt = {};
+        if (err) {
+            rslt = { rc: 1, msg: err.message };
+        } else {
+            rslt = { rc: 0, data: data };
+        }
+        resolve(rslt);
+    });
+
+    let rslt = await promise;
+    return rslt;
+}
+
+function promisify() {
+    let resolve;
+    const promise = new Promise(function(res) {
+        resolve = res;
+    });
+    return { promise, resolve };
+}
+
+export { dynamoDB, s3Bucket, putItem, scan, query };

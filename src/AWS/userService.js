@@ -1,4 +1,4 @@
-import { dynamoDB } from "./common";
+import { dynamoDB, scan, query, putItem } from "./common";
 
 const USER_KEY = "loggedInUser"
 
@@ -43,61 +43,6 @@ async function putUser(email, username, password) {
     return rslt;
 }
 
-async function query(dynamoDB, params) {
-    let { promise, resolve } = promisify();
-    dynamoDB.query(params, (err, data) => {
-        let rslt = {};
-        if (err) {
-            rslt = { rc: 1, msg: err.message };
-        } else {
-            rslt = { rc: 0, data: data };
-        }
-        resolve(rslt);
-    });
-
-    let rslt = await promise;
-    return rslt;
-}
-
-async function scan(dynamoDB, params) {
-    let { promise, resolve } = promisify();
-    dynamoDB.scan(params, (err, data) => {
-        let rslt = {};
-        if (err) {
-            rslt = { rc: 1, msg: err.message };
-        } else {
-            rslt = { rc: 0, data: data };
-        }
-        resolve(rslt);
-    });
-
-    let rslt = await promise;
-    return rslt;
-}
-
-async function putItem(dynamoDB, params) {
-    let { promise, resolve } = promisify();
-    dynamoDB.put(params, (err, data) => {
-        let rslt = {};
-        if (err) {
-            rslt = { rc: 1, msg: err.message };
-        } else {
-            rslt = { rc: 0, data: data };
-        }
-        resolve(rslt);
-    });
-
-    let rslt = await promise;
-    return rslt;
-}
-
-function promisify() {
-    let resolve;
-    const promise = new Promise(function(res) {
-        resolve = res;
-    });
-    return { promise, resolve };
-}
 
 function setLocalUser(user) {
     localStorage.setItem(USER_KEY, JSON.stringify(user));
