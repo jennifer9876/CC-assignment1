@@ -32,7 +32,7 @@ function App() {
           element={<SubscriptionPage onLogout={onLogout} />}
         />
         <Route
-          path='/profilepage'
+          path='/querypage'
           element={
             <QueryPage loggedInUser={loggedInUser} onLogout={onLogout} />
           }

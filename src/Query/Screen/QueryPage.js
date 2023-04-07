@@ -9,8 +9,9 @@ const QueryPage = ({ onLogout }) => {
   function handleSubscriptionPage() {
     navigate("/subscriptionpage");
   }
+
   function handleQueryPage() {
-    navigate("/profilepage");
+    navigate("/querypage");
   }
 
   let loginInfo = getLocalUser();

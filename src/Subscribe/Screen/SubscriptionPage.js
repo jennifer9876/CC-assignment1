@@ -13,7 +13,7 @@ const SubscriptionPage = ({ onLogout }) => {
   }
 
   function handleQueryPage() {
-    navigate("/profilepage");
+    navigate("/querypage");
   }
 
   function handleLogout() {
