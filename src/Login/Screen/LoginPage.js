@@ -4,7 +4,7 @@ import { EmailField, PasswordField } from "../Component/LoginInputFields";
 import { useNavigate } from "react-router-dom";
 import { LoginButtons } from "../Component/LoginButtons";
 import Alert from "../../CommonComponents/Alert";
-import { getUser, setLocalUser } from "../../AWS/route";
+import { getUser, setLocalUser } from "../../AWS/userService";
 
 function LoginPage({ onLogin }) {
   const [email, setEmail] = React.useState();

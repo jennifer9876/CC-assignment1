@@ -8,7 +8,7 @@ import {
 } from "../Component/SignUpInputFields";
 import { SignUpButton } from "../Component/SignUpButtons";
 import Alert from "../../CommonComponents/Alert";
-import { getAllUsers, putUser } from "../../AWS/route";
+import { getAllUsers, putUser } from "../../AWS/userService";
 
 function SignUpPage() {
   const [email, setEmail] = React.useState("");

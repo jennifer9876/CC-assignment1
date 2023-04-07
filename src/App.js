@@ -3,9 +3,9 @@ import { useState } from "react";
 import LoginPage from "./Login/Screen/LoginPage";
 import SignUpPage from "./SignUp/Screen/SignUpPage";
 import { SubscriptionPage } from "./Subscribe/Screen/SubscriptionPage";
-import QueryPage from "./Profile/Screen/QueryPage";
+import QueryPage from "./Query/Screen/QueryPage";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { removeLocalUser } from "./AWS/route";
+import { removeLocalUser } from "./AWS/userService";
 
 function App() {
   //useState set to grab user in localstorage to keep user logged in

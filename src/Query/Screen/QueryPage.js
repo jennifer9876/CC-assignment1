@@ -1,7 +1,7 @@
 import * as React from "react";
 import { AppBarComponent } from "../../CommonComponents/AppBar";
 import { useNavigate } from "react-router-dom";
-import { getLocalUser } from "../../AWS/route";
+import { getLocalUser } from "../../AWS/userService";
 
 const QueryPage = ({ onLogout }) => {
   const navigate = useNavigate();

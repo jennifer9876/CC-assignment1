@@ -1,7 +1,8 @@
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
 import { AppBarComponent } from "../../CommonComponents/AppBar";
-import { getLocalUser } from "../../AWS/route";
+import { getLocalUser } from "../../AWS/userService";
+import { SubscriptionTable } from "../Component/SubscriptionTable";
 
 const SubscriptionPage = ({ onLogout }) => {
   const navigate = useNavigate();
@@ -31,6 +32,7 @@ const SubscriptionPage = ({ onLogout }) => {
       />
       <div style={{ paddingLeft: 100, paddingRight: 100 }}>
         This is Subscribe Page
+        <SubscriptionTable />
       </div>
     </>
   );

@@ -1,0 +1,1 @@
+import { dynamoDB } from "./common";
