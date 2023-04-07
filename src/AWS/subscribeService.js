@@ -73,7 +73,7 @@ async function getQueriedData(titleText, artistText, yearText) {
     const expressionAttributeValues = {};
 
     Object.entries(queryValues).forEach(([attribute, value]) => {
-        if (value) {
+        if (value != 'undefined') {
             if (attribute == 'year' && yearText) {
                 let attributeTitle = "#yearVal"
                 filterExpressions.push(`${attributeTitle} = :${attribute}`);
@@ -100,7 +100,21 @@ async function getQueriedData(titleText, artistText, yearText) {
     }
 
     let rslt = await scan(params)
-    return rslt.data.Items;
+    let retrievedData = {}
+    if (rslt.data.Items.length > 0) {
+        let item = rslt.data.Items[0]
+        let allImages = getAllImages()
+        const imageUrl = item.img_url;
+        const imageArr = imageUrl.split("/");
+        const imgFileName = imageArr[imageArr.length - 1];
+
+        retrievedData["title"] = item.title;
+        retrievedData["artist"] = item.artist;
+        retrievedData["year"] = item.year;
+        retrievedData["image"] = allImages[imgFileName];
+    }
+
+    return retrievedData
 }
 
 function getAllImages() {

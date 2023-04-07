@@ -4,13 +4,21 @@ import { useNavigate } from "react-router-dom";
 import { getLocalUser } from "../../AWS/userService";
 import { TextField, Button } from "@mui/material";
 import { getQueriedData } from "../../AWS/subscribeService";
+import { QueryDialog } from "../Component/QueryDialog";
+import { createSubscriber } from "../../AWS/subscribeService";
 
 const QueryPage = ({ onLogout }) => {
   const [title, setTitle] = React.useState();
   const [artist, setArtist] = React.useState();
   const [year, setYear] = React.useState();
+  const [openDialog, setOpenDialog] = React.useState(false);
+  const [retrievedData, setRetrievedData] = React.useState({});
 
   const navigate = useNavigate();
+
+  const handleDialogClose = () => {
+    setOpenDialog(false);
+  };
 
   function handleSubscriptionPage() {
     navigate("/subscriptionpage");
@@ -20,8 +28,15 @@ const QueryPage = ({ onLogout }) => {
     navigate("/querypage");
   }
 
+  async function handleSubcribe() {
+    await createSubscriber(title);
+    setOpenDialog(false);
+  }
+
   async function handleQuery() {
     const rslt = await getQueriedData(title, artist, year);
+    setRetrievedData(rslt);
+    setOpenDialog(true);
   }
 
   let loginInfo = getLocalUser();
@@ -91,6 +106,15 @@ const QueryPage = ({ onLogout }) => {
           }}>
           Query
         </Button>
+
+        <div>
+          <QueryDialog
+            onClose={handleDialogClose}
+            open={openDialog}
+            onSubscribe={handleSubcribe}
+            queryData={retrievedData}
+          />
+        </div>
       </div>
     </>
   );
