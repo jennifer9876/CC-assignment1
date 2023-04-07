@@ -1,4 +1,4 @@
-import { dynamoDB, scan, query, putItem } from "./common";
+import { scan, query, putItem } from "./common";
 
 const USER_KEY = "loggedInUser"
 
@@ -15,7 +15,7 @@ async function getUser(email) {
         }
     };
 
-    let rslt = await query(dynamoDB, params)
+    let rslt = await query(params)
     return rslt;
 }
 
@@ -25,7 +25,7 @@ async function getAllUsers() {
         TableName: 'login',
     };
 
-    let rslt = await scan(dynamoDB, params)
+    let rslt = await scan(params)
     return rslt;
 }
 
@@ -39,7 +39,7 @@ async function putUser(email, username, password) {
         }
     };
 
-    let rslt = await putItem(dynamoDB, params)
+    let rslt = await putItem(params)
     return rslt;
 }
 

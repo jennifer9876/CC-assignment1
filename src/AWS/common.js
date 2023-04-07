@@ -16,7 +16,7 @@ AWS.config.update({
 const dynamoDB = new AWS.DynamoDB.DocumentClient();
 const s3Bucket = new AWS.S3();
 
-async function putItem(dynamoDB, params) {
+async function putItem(params) {
     let { promise, resolve } = promisify();
     dynamoDB.put(params, (err, data) => {
         let rslt = {};
@@ -32,7 +32,7 @@ async function putItem(dynamoDB, params) {
     return rslt;
 }
 
-async function query(dynamoDB, params) {
+async function query(params) {
     let { promise, resolve } = promisify();
     dynamoDB.query(params, (err, data) => {
         let rslt = {};
@@ -48,7 +48,7 @@ async function query(dynamoDB, params) {
     return rslt;
 }
 
-async function scan(dynamoDB, params) {
+async function scan(params) {
     let { promise, resolve } = promisify();
     dynamoDB.scan(params, (err, data) => {
         let rslt = {};
@@ -56,6 +56,23 @@ async function scan(dynamoDB, params) {
             rslt = { rc: 1, msg: err.message };
         } else {
             rslt = { rc: 0, data: data };
+        }
+        resolve(rslt);
+    });
+
+    let rslt = await promise;
+    return rslt;
+}
+
+async function listObjects(params) {
+    let { promise, resolve } = promisify();
+
+    s3Bucket.listObjects(params, (err, data) => {
+        let rslt = {};
+        if (err) {
+            rslt = { rc: 1, msg: err.message };
+        } else {
+            rslt = { rc: 0, data: data.Contents };
         }
         resolve(rslt);
     });
@@ -72,4 +89,4 @@ function promisify() {
     return { promise, resolve };
 }
 
-export { dynamoDB, s3Bucket, putItem, scan, query };
+export { dynamoDB, s3Bucket, putItem, scan, query, listObjects };
