@@ -31,7 +31,6 @@ const SubscriptionPage = ({ onLogout }) => {
         userName={loginInfo.user_name}
       />
       <div style={{ paddingLeft: 100, paddingRight: 100 }}>
-        This is Subscribe Page
         <SubscriptionTable />
       </div>
     </>

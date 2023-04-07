@@ -6,12 +6,12 @@ async function getUser(email) {
     //Get user data
     const params = {
         TableName: 'login',
-        KeyConditionExpression: '#pk = :pk', // Replace #pk and :pk with your partition key name and value
+        KeyConditionExpression: '#pk = :pk',
         ExpressionAttributeNames: {
-            '#pk': 'email' // Replace partitionKey with your actual partition key attribute name
+            '#pk': 'email'
         },
         ExpressionAttributeValues: {
-            ':pk': `${email}` // Replace my-partition-key-value with your actual partition key value
+            ':pk': `${email}`
         }
     };
 
