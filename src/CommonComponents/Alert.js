@@ -8,12 +8,15 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 });
 
 export default function Alerts(props) {
-  let { open, onClose, customText, severity } = props;
+  let { open, onClose, customText } = props;
 
   return (
     <Stack>
       <Snackbar open={open} autoHideDuration={1000} onClose={onClose}>
-        <Alert onClose={onClose} severity={props.severity} sx={{ width: "100%" }}>
+        <Alert
+          onClose={onClose}
+          severity={props.severity}
+          sx={{ width: "100%" }}>
           {customText}
         </Alert>
       </Snackbar>

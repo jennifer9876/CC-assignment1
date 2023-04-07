@@ -13,7 +13,7 @@ function EmailField(props) {
       }}>
       <TextField
         type='email'
-        label='Email address'
+        label='Email'
         variant='outlined'
         fullWidth={true}
         defaultValue={email}

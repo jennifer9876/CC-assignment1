@@ -6,7 +6,7 @@ import { LoginButtons } from "../Component/LoginButtons";
 import Alert from "../../CommonComponents/Alert";
 import { getUser, setLocalUser } from "../../AWS/userService";
 
-function LoginPage({ onLogin }) {
+function LoginPage() {
   const [email, setEmail] = React.useState();
   const [password, setPassword] = React.useState();
   const [emailErrorMessage, setEmailErrorMessage] = React.useState("");
@@ -112,7 +112,7 @@ function LoginPage({ onLogin }) {
       <Alert
         open={openAlert}
         severity='success'
-        customText='You have successfully logged in, redirecting you to home page.'
+        customText='You have successfully logged in, redirecting you to subscription page.'
       />
     </div>
   );

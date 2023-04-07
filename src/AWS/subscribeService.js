@@ -1,4 +1,4 @@
-import { dynamoDB, scan, query, putItem, listObjects, deleteItem } from "./common";
+import { scan, query, putItem, deleteItem } from "./common";
 import { getLocalUser } from "../AWS/userService";
 
 async function getAllMusic() {
@@ -62,6 +62,9 @@ async function createSubscriber(title) {
 }
 
 async function getQueriedData(titleText, artistText, yearText) {
+    let retrievedData = {}
+
+    if (!titleText && !artistText && !yearText) return retrievedData
 
     const queryValues = {
         title: `${titleText}`,
@@ -100,7 +103,7 @@ async function getQueriedData(titleText, artistText, yearText) {
     }
 
     let rslt = await scan(params)
-    let retrievedData = {}
+
     if (rslt.data.Items.length > 0) {
         let item = rslt.data.Items[0]
         let allImages = getAllImages()

@@ -45,7 +45,11 @@ function QueryDialog(props) {
           )}
         </DialogContent>
         <DialogActions>
-          <Button onClick={onSubscribe}> Subscribe </Button>
+          {queryData == {} ? (
+            <></>
+          ) : (
+            <Button onClick={onSubscribe}> Subscribe </Button>
+          )}
           <Button onClick={onClose}> Close </Button>
         </DialogActions>
       </Dialog>

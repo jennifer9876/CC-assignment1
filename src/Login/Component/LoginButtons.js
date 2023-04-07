@@ -2,7 +2,7 @@ import * as React from "react";
 import { Box, Stack, Button, Divider } from "@mui/material";
 
 function LoginButtons(props) {
-  let { handleLogin, handleSignUp, formRef} = props;
+  let { handleLogin, handleSignUp } = props;
 
   return (
     <Box style={{ width: "90%", margin: "auto" }}>
