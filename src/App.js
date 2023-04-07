@@ -2,7 +2,7 @@
 import { useState } from "react";
 import LoginPage from "./Login/Screen/LoginPage";
 import SignUpPage from "./SignUp/Screen/SignUpPage";
-import { HomePage } from "./Home/Screen/HomePage";
+import { SubscriptionPage } from "./Subscribe/Screen/SubscriptionPage";
 import ProfilePage from "./Profile/Screen/ProfilePage";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { removeLocalUser } from "./AWS/route";
@@ -18,7 +18,7 @@ function App() {
     setLoggedInUser(email);
     localStorage.setItem("loggedInUser", email);
   };
-  const onLogout = (email) => {
+  const onLogout = () => {
     removeLocalUser();
   };
 
@@ -50,7 +50,7 @@ function App() {
         <Route path='/signuppage' element={<SignUpPage />} />
         <Route
           path='/subscriptionpage'
-          element={<HomePage onLogout={onLogout} />}
+          element={<SubscriptionPage onLogout={onLogout} />}
         />
         <Route
           path='/profilepage'

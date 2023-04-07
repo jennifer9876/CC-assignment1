@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { AppBarComponent } from "../../CommonComponents/AppBar";
 import { getLocalUser } from "../../AWS/route";
 
-const HomePage = ({ onLogout }) => {
+const SubscriptionPage = ({ onLogout }) => {
   const navigate = useNavigate();
 
   let loginInfo = getLocalUser();
@@ -28,10 +28,10 @@ const HomePage = ({ onLogout }) => {
         onQueryClick={handleQueryPage}
         onLogoutClick={handleLogout}
         userName={loginInfo.user_name}
-      />
-      <div style={{ paddingLeft: 100, paddingRight: 100 }}></div>
+      />{" "}
+      <div style={{ paddingLeft: 100, paddingRight: 100 }}> </div>{" "}
     </>
   );
 };
 
-export { HomePage };
+export { SubscriptionPage };
