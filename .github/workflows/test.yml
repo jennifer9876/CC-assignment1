@@ -1,11 +1,76 @@
-name: Echo Message on Dispatch
+name: Auto Sync with Main Branch
 
 on:
   workflow_dispatch:
 
 jobs:
-  echo_message:
+  auto-sync:
+    name: Auto Sync with Main Branch
     runs-on: ubuntu-latest
+
     steps:
-      - name: Echo a message
-        run: echo "This is a manually triggered workflow!"
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Get active Epic branches
+        id: get_active_epic_branches
+        run: |
+          git fetch --all
+          current_date=$(date +%s)
+          one_week_ago=$(date -d '1 week ago' +%s)
+
+          branches=()
+
+          echo "Script Log: Listing all remote branches that start with 'feature/main/' and checking their last commit date..."
+          EPIC_BRANCHES=$(git for-each-ref --sort=-committerdate refs/remotes/ --format='%(refname:short)' | grep '^origin/feature/main/')
+          echo "Script log: Branches updated within the last week:"
+          for branch in $EPIC_BRANCHES; do
+            commit_date=$(git log -1 --format=%ct $branch)
+            if [ $commit_date -ge $one_week_ago ]; then    
+              branches+=("$branch")
+              echo "$branch"
+            fi
+          done
+
+          echo "active_branches=${branches[@]}" >> $GITHUB_OUTPUT
+        shell: bash
+
+      - name: Get latest changes from main
+        run: |
+          git checkout main
+          git pull origin main
+          echo "Script log: Pulled latest changes from main"
+
+      - name: Create PRs for active epic branches
+        run: |
+          git config --global user.email "digital-releases@bunnings.com.au"
+          git config --global user.name "Digital Releases"
+
+          ACTIVE_EPIC_BRANCH=(${{ steps.get_active_epic_branches.outputs.active_branches }})
+          for branch in "${ACTIVE_EPIC_BRANCH[@]}"; do
+            echo "Script log: Processing epic branch: $branch"
+            ACTIVE_EPIC_BRANCH=${branch#origin/}
+            git checkout $ACTIVE_EPIC_BRANCH
+            git pull origin $ACTIVE_EPIC_BRANCH
+            echo "Script log: Pulled latest changes from branch: $ACTIVE_EPIC_BRANCH"
+
+            if git diff --quiet main $ACTIVE_EPIC_BRANCH; then
+              echo "Script log: No changes detected, skipping merge"
+            else
+              echo "Script log: Changes detected"
+              TEMP_EPIC_BRANCH=$(echo "$ACTIVE_EPIC_BRANCH" | sed 's|^feature/main/|feature/|' | sed 's|$|-sync-with-main|')
+              git checkout -b $TEMP_EPIC_BRANCH
+              git push --set-upstream origin $TEMP_EPIC_BRANCH
+              echo "Script log: Created temp branch: $TEMP_EPIC_BRANCH"
+
+              if git merge main; then
+                echo "Script log: Merge successful, pushing changes"
+                git push origin $TEMP_EPIC_BRANCH
+                echo "Script log: Pushed changes to branch: $TEMP_EPIC_BRANCH"
+              else
+                echo "Script log: Merge conflict detected, aborting merge"
+                git merge --abort
+                echo "Script log: Creating PR to resolve conflicts for branch: $TEMP_EPIC_BRANCH"
+              fi
+            fi    
+          done
