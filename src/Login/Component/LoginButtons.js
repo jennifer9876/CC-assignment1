@@ -1,13 +1,14 @@
 import * as React from "react";
 import { Box, Stack, Button, Divider } from "@mui/material";
 
-// This is a test comment
+
 function LoginButtons(props) {
     let { handleLogin, handleSignUp } = props;
 
     return ( <
         Box style = {
-            { width: "90%", margin: "auto" } } >
+            { width: "90%", margin: "auto" }
+        } >
         <
         Stack spacing = { 2 } >
         <
@@ -40,8 +41,8 @@ function LoginButtons(props) {
             }
         } >
         Sign Up <
-        /Button> <
-        /Stack> <
+        /Button> < /
+        Stack > <
         /Box>
     );
 }
