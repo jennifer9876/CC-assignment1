@@ -37,11 +37,26 @@ describe('quantityMessageHandler', () => {
     );
 
     expect(result).toBeNull();
+  });
+
+  it('Should return null for unavailable core item with delivery fulfilment type', () => {
+    const entryToTest: OnlineCartEntryProduct = {
+      ...cartEntry,
+      productAvailabilityFlag: false,
+      selectedFulfilmentType: 'Delivery',
+    };
 
     mockHandleDuplicateFineLines.mockReturnValue({
       quantity: entryToTest.quantity,
       hasLargestQuantity: true,
     });
+
+    const result = quantityMessageHandler(
+      entryToTest,
+      mockCartProductTileContent
+    );
+
+    expect(result).toBeNull();
   });
 
   it('Should return null for valid live item entry', () => {
@@ -184,6 +199,34 @@ describe('quantityMessageHandler', () => {
       message: injectQuantityToMessage(
         mockCartProductTileContent.alertMessage.exceedItemLimit,
         maxOrderQuantity
+      ),
+    });
+  });
+
+  it('Should return cart alert props for core item that exceeding stock level with click & collect', () => {
+    const itemStockLevel = cartEntry.product.stockStatus.stockLevel;
+    const entryToTest: OnlineCartEntryProduct = {
+      ...cartEntry,
+      productAvailabilityFlag: false,
+    };
+
+    mockHandleDuplicateFineLines.mockReturnValue({
+      quantity: itemStockLevel + 1,
+      hasLargestQuantity: true,
+    });
+
+    const result = quantityMessageHandler(
+      entryToTest,
+      mockCartProductTileContent
+    );
+
+    expect(result).not.toBeNull();
+    expect(result).toEqual({
+      ...cartTilePropFixture,
+      alertVariant: 'alertNoActions',
+      message: injectQuantityToMessage(
+        mockCartProductTileContent.alertMessage.exceedStockAvailability,
+        itemStockLevel
       ),
     });
   });
