@@ -3,6 +3,9 @@ name: Auto Sync with Main Branch
 on:
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   auto-sync:
     name: Auto Sync with Main Branch
@@ -42,6 +45,8 @@ jobs:
           echo "Script log: Pulled latest changes from main"
 
       - name: Create PRs for active epic branches
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git config --global user.email "digital-releases@bunnings.com.au"
           git config --global user.name "Digital Releases"
