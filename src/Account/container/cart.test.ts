@@ -16,6 +16,7 @@ import { handleDuplicateFineLines } from '../../tileMessages/handleDuplicateFine
 import { injectQuantityToMessage } from '../../../content/Cart.content';
 
 // Test comment
+// This test file is for testing the quantityMessageHandler function
 
 const mockCartProductTileContent = mockProductItemContent.productTiles;
 const cartEntry = mockCartContext.allEntries[0]!;
