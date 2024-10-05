@@ -48,21 +48,15 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          git config --global user.email "avani.jagani@gmail.com"
-          git config --global user.name "Avani Jagani"
-
           ACTIVE_EPIC_BRANCH=(${{ steps.get_active_epic_branches.outputs.active_branches }})
           for branch in "${ACTIVE_EPIC_BRANCH[@]}"; do
             echo "SCRIPT LOG: PROCESSING EPIC BRANCH: $branch"
             ACTIVE_EPIC_BRANCH=${branch#origin/}
-            git fetch origin $ACTIVE_EPIC_BRANCH
             git checkout $ACTIVE_EPIC_BRANCH
             git pull origin $ACTIVE_EPIC_BRANCH
             echo "Script log: Pulled latest changes from branch: $ACTIVE_EPIC_BRANCH"
 
             echo "SCRIPT LOG: CHECKING FOR CHANGES"
-            echo "$(git diff --quiet main $ACTIVE_EPIC_BRANCH)"
-            echo "SCRIPT LOG: EXIT STATUS: $?"
             git diff --quiet main $ACTIVE_EPIC_BRANCH
             echo "SCRIPT LOG: DIFF EXIT STATUS: $?"
             DIFF_EXIT_STATUS=$?
