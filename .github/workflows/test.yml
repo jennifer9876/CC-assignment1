@@ -62,13 +62,15 @@ jobs:
 
             echo "SCRIPT LOG: CHECKING FOR CHANGES"
             echo "$(git diff --quiet main $ACTIVE_EPIC_BRANCH)"
+            echo "SCRIPT LOG: EXIT STATUS: $?"
             git diff --quiet main $ACTIVE_EPIC_BRANCH
+            echo "SCRIPT LOG: DIFF EXIT STATUS: $?"
             DIFF_EXIT_STATUS=$?
             echo "SCRIPT LOG: DIFF EXIT STATUS: $DIFF_EXIT_STATUS"
 
             if [ $DIFF_EXIT_STATUS -eq 0 ]; then
               echo "SCRIPT LOG: NO CHANGES DETECTED, SKIPPING MERGE"
-            else
+            elif [ $DIFF_EXIT_STATUS -eq 1 ]; then
               echo "SCRIPT LOG: CHANGES DETECTED"
               TEMP_EPIC_BRANCH=$(echo "$ACTIVE_EPIC_BRANCH" | sed 's|^feature/main/|feature/|' | sed 's|$|-sync-with-main|')
               git checkout -b $TEMP_EPIC_BRANCH
@@ -85,5 +87,7 @@ jobs:
                 git merge --abort
                 echo "Script log: Creating PR to resolve conflicts for branch: $TEMP_EPIC_BRANCH"
               fi
-            fi    
+            else
+              echo "SCRIPT LOG: ERROR DETECTED, EXIT STATUS: $DIFF_EXIT_STATUS"
+            fi  
           done
