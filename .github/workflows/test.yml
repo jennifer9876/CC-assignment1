@@ -60,7 +60,11 @@ jobs:
             git pull origin $ACTIVE_EPIC_BRANCH
             echo "Script log: Pulled latest changes from branch: $ACTIVE_EPIC_BRANCH"
 
-            if git diff main $ACTIVE_EPIC_BRANCH; then
+            git diff --quiet main $ACTIVE_EPIC_BRANCH
+            DIFF_EXIT_STATUS=$?
+            echo "SCRIPT LOG: DIFF EXIT STATUS: $DIFF_EXIT_STATUS"
+
+            if [ $DIFF_EXIT_STATUS -eq 0 ]; then
               echo "SCRIPT LOG: NO CHANGES DETECTED, SKIPPING MERGE"
             else
               echo "SCRIPT LOG: CHANGES DETECTED"
