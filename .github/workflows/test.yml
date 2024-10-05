@@ -53,7 +53,7 @@ jobs:
 
           ACTIVE_EPIC_BRANCH=(${{ steps.get_active_epic_branches.outputs.active_branches }})
           for branch in "${ACTIVE_EPIC_BRANCH[@]}"; do
-            echo "Script log: Processing epic branch: $branch"
+            echo "SCRIPT LOG: PROCESSING EPIC BRANCH: $branch"
             ACTIVE_EPIC_BRANCH=${branch#origin/}
             git fetch origin $ACTIVE_EPIC_BRANCH
             git checkout $ACTIVE_EPIC_BRANCH
@@ -61,21 +61,21 @@ jobs:
             echo "Script log: Pulled latest changes from branch: $ACTIVE_EPIC_BRANCH"
 
             if git diff main $ACTIVE_EPIC_BRANCH; then
-              echo "Script log: No changes detected, skipping merge"
+              echo "SCRIPT LOG: NO CHANGES DETECTED, SKIPPING MERGE"
             else
-              echo "Script log: Changes detected"
+              echo "SCRIPT LOG: CHANGES DETECTED"
               TEMP_EPIC_BRANCH=$(echo "$ACTIVE_EPIC_BRANCH" | sed 's|^feature/main/|feature/|' | sed 's|$|-sync-with-main|')
               git checkout -b $TEMP_EPIC_BRANCH
               echo "Script log: Checked out new branch: $TEMP_EPIC_BRANCH"
               git push --set-upstream origin $TEMP_EPIC_BRANCH
-              echo "Script log: Created temp branch: $TEMP_EPIC_BRANCH"
+              echo "SCRIPT LOG: CREATED TEMP BRANCH: $TEMP_EPIC_BRANCH"
 
               if git merge main; then
-                echo "Script log: Merge successful, pushing changes"
+                echo "SCRIPT LOG: MERGE SUCCESSFUL, PUSHING CHANGES"
                 git push origin $TEMP_EPIC_BRANCH
                 echo "Script log: Pushed changes to branch: $TEMP_EPIC_BRANCH"
               else
-                echo "Script log: Merge conflict detected, aborting merge"
+                echo "SCRIPT LOG: MERGE CONFLICT DETECTED, ABORTING MERGE"
                 git merge --abort
                 echo "Script log: Creating PR to resolve conflicts for branch: $TEMP_EPIC_BRANCH"
               fi
