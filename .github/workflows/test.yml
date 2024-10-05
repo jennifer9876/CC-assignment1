@@ -48,6 +48,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          git config --global user.email "avani.jagani@gmail.com"
+          git config --global user.name "Avani Jagani"
+
           ACTIVE_EPIC_BRANCH=(${{ steps.get_active_epic_branches.outputs.active_branches }})
           for branch in "${ACTIVE_EPIC_BRANCH[@]}"; do
             echo "SCRIPT LOG: PROCESSING EPIC BRANCH: $branch"
