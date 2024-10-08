@@ -57,7 +57,7 @@ jobs:
             echo "Script log: Pulled latest changes from branch: $ACTIVE_EPIC_BRANCH"
 
             echo "SCRIPT LOG: CHECKING FOR CHANGES"
-            git diff main $ACTIVE_EPIC_BRANCH
+            git diff --exit-code main $ACTIVE_EPIC_BRANCH
             echo "SCRIPT LOG: DIFF EXIT STATUS: $?"
             DIFF_EXIT_STATUS=$?
             echo "SCRIPT LOG: DIFF EXIT STATUS: $DIFF_EXIT_STATUS"
